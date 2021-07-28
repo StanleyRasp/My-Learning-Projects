@@ -1,0 +1,26 @@
+function convertToRoman(num) {
+  const symbols = [
+   ["I", "IV", "V", "IX"], 
+   ["X", "XL", "L", "XC"], 
+   ["C", "CD", "D", "CM"], 
+   ["M"]]
+
+  let converted = ""
+  for (let tenth = 3; tenth > -1; tenth--){
+     let divider = Math.floor(num / 10 ** tenth);
+     num -= divider * 10 ** tenth;
+     if (divider < 4){
+       converted += symbols[tenth][0].repeat(divider);
+     }
+     if (divider == 4){
+       converted += symbols[tenth][1];
+     }
+     if (4 < divider && divider < 9){
+       converted += symbols[tenth][2] + symbols[tenth][0].repeat(divider - 5);
+     }
+     if (divider == 9){
+       converted += symbols[tenth][3];
+     }
+   }
+   return converted;
+}
