@@ -1,0 +1,12 @@
+def birthday(arr, sum, length):
+    posibilities = 0
+
+    winSum = sum(arr[:length])
+    if winSum == sum:
+        posibilities += 1
+    for i in range(length, len(arr)):
+        winSum += arr[i] - arr[i - length]
+        if winSum == sum:
+            posibilities += 1
+
+    return posibilities
