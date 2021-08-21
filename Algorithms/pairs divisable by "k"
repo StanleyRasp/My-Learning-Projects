@@ -1,0 +1,17 @@
+def divisibleSumPairs(k, ar):
+    
+    cases = 0
+    bucket = [0 for i in range(k)]
+    
+    for num in ar:
+        bucket[num % k] += 1
+        
+    cases += ((bucket[0] - 1) * bucket[0]) / 2
+    
+    for i in range(1, math.ceil(k/2)):
+        cases += bucket[i] * bucket[k-i]
+        
+    if k % 2 == 0:
+        cases += ((bucket[round(k/2)] - 1) * bucket[round(k/2)])/2
+             
+    return int(cases)
