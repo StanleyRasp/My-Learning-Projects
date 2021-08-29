@@ -1,2 +1,16 @@
 # The program finds the longest array of numbers of which absolute difference is less than or equal 1. It returns the length of said array.
 # It uses a simple sliding window algorithm as well as a counter. Time complexity is O(n)
+
+def pickingNumbers(a):
+    longest = 0
+    counter = [0] * (max(a) + 1)
+    
+    for num in a:
+        counter[num] += 1    
+    
+    for i in range(len(counter) - 1):
+        pairSum = counter[i] + counter[i+1]
+        if pairSum > longest:
+            longest = pairSum
+            
+    return longest
