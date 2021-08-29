@@ -1,0 +1,18 @@
+# The program finds the highest sum of two prices from two arrays that fits under a set budget. If such sum doesn't exist it returns -1.
+# Thanks to sorting and ending the loop when the sum goes over budget the program has a Time Efficiency of O(n log n) and Space Efficiency of O(1).
+
+def getMoneySpent(keyboards, drives, b):
+    
+    keyboards.sort(reverse = True)
+    drives.sort()
+    price = -1
+    
+    for i in range(len(keyboards)):
+        for j in range(len(drives)):
+            priceSum = keyboards[i] + drives[j]
+            if priceSum > b:
+                break
+            if priceSum > price:
+                price = priceSum 
+                
+    return price
