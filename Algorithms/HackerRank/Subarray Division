@@ -1,0 +1,15 @@
+# A function that finds how many sums of contiguous numbers and given length there are in a array.
+# It uses the sliding window algorithm resulting in a O(n) time complexity.
+
+def findSumsOfLength(arr, sum, length):
+    posibilities = 0
+
+    winSum = sum(arr[:length])
+    if winSum == sum:
+        posibilities += 1
+    for i in range(length, len(arr)):
+        winSum += arr[i] - arr[i - length]
+        if winSum == sum:
+            posibilities += 1
+
+    return posibilities
