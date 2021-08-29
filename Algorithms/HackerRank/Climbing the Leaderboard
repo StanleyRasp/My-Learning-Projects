@@ -32,3 +32,4 @@ def climbingLeaderboard(ranked, player):
     placings.extend([1] * (len(player) - len(placings)))
     
     return placings
+
