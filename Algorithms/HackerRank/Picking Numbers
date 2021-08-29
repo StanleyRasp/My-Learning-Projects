@@ -1,0 +1,2 @@
+# The program finds the longest array of numbers of which absolute difference is less than or equal 1. It returns the length of said array.
+# It uses a simple sliding window algorithm as well as a counter. Time complexity is O(n)
