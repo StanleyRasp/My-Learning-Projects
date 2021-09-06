@@ -1,0 +1,18 @@
+def organizingContainers(n, container):
+    capacities = [0] * n
+    typeAmts = [0] * n
+    
+    for contIndex in range(n):
+        capacities[contIndex] += sum(container[contIndex])
+        
+    for ballType in range(n):
+        for cont in container:
+            typeAmts[ballType] += cont[ballType]
+            
+    for typeAmt in typeAmts:
+        if typeAmt in capacities:
+            capacities.remove(typeAmt)
+        else:
+            return "Impossible"
+            
+    return "Possible"      
