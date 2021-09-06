@@ -1,3 +1,7 @@
+# https://www.hackerrank.com/challenges/organizing-containers-of-balls/problem
+# the program compares if there is the same amount of balls of each type to fill containers which have a fixed size as the swaps dont change the amount of balls in the container
+# time complexity O(n^2)
+
 def organizingContainers(n, container):
     capacities = [0] * n
     typeAmts = [0] * n
