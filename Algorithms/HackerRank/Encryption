@@ -1,0 +1,17 @@
+# https://www.hackerrank.com/challenges/encryption/problem
+# an easy solution that just adds every letter separated by the number of columns and starts again from the next number
+# time complexity O(n)
+
+def encryption(s):
+    s.replace(" ", "")
+    L = len(s)
+    cols = math.ceil(L ** (1/2))
+    
+    encrypted = ''
+    
+    for start in range(cols):
+        for i in range(start, L, cols):
+            encrypted += s[i]
+        encrypted += " "
+        
+    return encrypted.strip()
