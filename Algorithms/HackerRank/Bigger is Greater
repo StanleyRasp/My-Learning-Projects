@@ -1,0 +1,37 @@
+# https://www.hackerrank.com/challenges/bigger-is-greater/problem
+# the program finds the next biggest lexographical permutation using the algorithm described in this article https://www.nayuki.io/page/next-lexicographical-permutation-algorithm
+# time complexity O(n)
+
+def biggerIsGreater(w):
+    letterVals = {'a':1, 'b':2, 'c':3, 'd':4, 'e':5, 'f':6, 'g':7, 'h':8, 'i':9, 'j':10,
+                    'k':11, 'l':12, 'm':13, 'n':14, 'o':15, 'p':16, 'q':17, 'r':18, 's':19, 
+                    't':20, 'u':21, 'v':22, 'w':23, 'x':24, 'y':25, 'z':26}
+    
+    wordVal = []
+    pivot = -1                
+    
+    for letter in w:
+        wordVal.append(letterVals[letter])
+        
+    print(w, wordVal)  
+    
+    for i in range(len(w) - 1, 0, -1):
+        if not (wordVal[i-1] >= wordVal[i]):
+            pivot = i - 1
+            break
+                    
+    if pivot == -1:
+        return "no answer"
+    print(pivot, end=" ")
+    
+    swap = -1
+    for i in range(len(w) - 1, pivot, -1):
+        if wordVal[i] > wordVal[pivot]:
+            swap = i
+            break
+            
+    print(swap)
+            
+    swapped = w[0:pivot] + w[swap] + (w[pivot + 1: swap] +  w[pivot] + w[swap + 1:])[::-1]
+    
+    return swapped
