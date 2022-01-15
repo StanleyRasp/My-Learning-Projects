@@ -1,0 +1,128 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+
+typedef pair<string, string> pss;
+typedef pair<int, int> pii;
+
+vector<string> split(string str, char splitter){
+    vector<string> result;
+    string temp;
+    int sSize = str.size();
+
+    for (int i = 0; i <= sSize; ++i){
+        if (str[i] == splitter or i == sSize){
+            result.push_back(temp);
+            temp.clear();
+            continue;
+        }
+        temp += (str[i]);
+    }
+
+    return result;
+}
+
+vector<pii> minutify(vector<pss> cal){
+    vector<pii> result;
+
+    for (pss pair : cal){
+        pii minutePair;
+        vector<string> splittedFirst = split(pair.first, ':'),
+                       splittedSecond = split(pair.second, ':');
+
+        minutePair.first = stoi(splittedFirst[0]) * 60 + stoi(splittedFirst[1]);
+        minutePair.second = stoi(splittedSecond[0]) * 60 + stoi(splittedSecond[1]);
+
+        result.push_back(minutePair);
+    }
+    return result;
+}
+
+vector<pss> findFreeTime(vector<pair<string, string>> cal1, vector<pair<string, string>> cal2,
+                         pss bounds1, pss bounds2, int duration)
+{
+    vector<pii> minuteCal1 = minutify(cal1);
+    int sizeCal1 = cal1.size();
+
+    vector<pii> minuteCal2 = minutify(cal2);
+    int sizeCal2 = cal2.size();
+
+    vector<pii> minuteBounds = minutify(vector<pss> {bounds1, bounds2});
+    pii reducedBounds = {max(minuteBounds[0].first, minuteBounds[1].first),
+                         min(minuteBounds[0].second, minuteBounds[1].second)};
+
+    vector<pii> summedCal;
+
+    for (int i = 0; i < sizeCal1; ++i){
+        summedCal.push_back(minuteCal1[i]);
+    }
+
+    for (int i = 0; i < sizeCal2; ++i){
+        summedCal.push_back(minuteCal2[i]);
+    }
+
+    summedCal.emplace_back(0, reducedBounds.first);
+    summedCal.emplace_back(reducedBounds.second, 1440);
+
+    sort(summedCal.begin(), summedCal.end());
+
+    int sizeSummedCal = summedCal.size();
+
+    vector<pii> reducedCal;
+
+    int start = summedCal[0].first, end = summedCal[0].second;
+    for (int i = 1; i <= sizeSummedCal; ++i){
+
+        if (summedCal[i].first <= end and i != sizeSummedCal){
+            end = max(end, summedCal[i].second);
+        } else {
+            reducedCal.emplace_back(start, end);
+            start = summedCal[i].first;
+            end = summedCal[i].second;
+        }
+    }
+
+    vector<pii> minuteResult;
+
+    int sizeReducedCal = reducedCal.size();
+    start = reducedCal[0].second;
+    for (int i = 1; i < sizeReducedCal; ++i){
+        end = reducedCal[i].first;
+        if (end - start >= duration){
+            minuteResult.emplace_back(start, end);
+        }
+        start = reducedCal[i].second;
+    }
+
+    vector<pss> result;
+
+    for (pii pair : minuteResult){
+        int hour2 = pair.second / 60, minute2 = pair.second % 60;
+
+        result.emplace_back(to_string(pair.first / 60) + ':' + to_string(pair.first % 60),
+                            to_string(pair.second / 60) + ':' + to_string(pair.second % 60));
+    }
+
+    return result;
+}
+
+int main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    vector<pss> cal1 = {make_pair("9:00", "10:30"), make_pair("12:00", "13:00"),
+                        make_pair("16:00", "18:00")},
+                        cal2 = {make_pair("10:00", "11:30"), make_pair("12:30", "14:30"),
+                                make_pair("14:30", "15:00"), make_pair("16:00", "17:00")};
+    pss bounds1 = {"9:00", "20:00"}, bounds2 = {"10:00", "18:30"};
+    int duration = 30;
+
+    vector<pss> result = findFreeTime(cal1, cal2, bounds1, bounds2, duration);
+
+    for (pss pair : result){
+        cout << pair.first << " : " << pair.second << '\n';
+    }
+
+    return 0;
+}
