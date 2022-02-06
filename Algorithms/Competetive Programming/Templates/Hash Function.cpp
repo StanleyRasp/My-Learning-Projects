@@ -10,10 +10,10 @@ int hashTable[MAXN];
 
 bool compareHash(int p1, int k1, int p2, int k2){
     int hash1 = hashTable[k1];
-    if (p1 > 0) hash1 -= hashTable[p1 - 1];
+    if (p1 > 0) hash1 = (hash1 - hashTable[p1 - 1] + MOD) % MOD;
 
     int hash2 = hashTable[k2];
-    if (p2 > 0) hash2 -= hashTable[p2 - 1];
+    if (p2 > 0) hash2 = (hash2 - hashTable[p2 - 1] + MOD) % MOD;
 
     if ((hash1 * power[p2 - p1]) % MOD == hash2){
         return true;
